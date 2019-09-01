@@ -60,7 +60,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scripts\back.cs" />
     <Compile Include="Assets\Scripts\createobj.cs" />
+    <Compile Include="Assets\Scripts\playstart.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>C:/Users/xxx/My First Unity Game/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
     </Reference>

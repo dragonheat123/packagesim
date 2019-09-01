@@ -1,6 +1,6 @@
 Win64
 PlayerPath?
-C:/Users/xxx/Desktop/packagesim/My First Unity Game.exe
+C:/Users/xxx/My First Unity Game/Builds/Windows/PackageSim.exe
 SceneListBegin?
 Assets/Scenes/mainmenu.unity
 Assets/Scenes/freeplay.unity
@@ -98,7 +98,7 @@ e1bbf0ab858085e38fae6b12ebbdcd35 UnityEngine.Timeline.dll:UnityEngine.Timeline.G
 e1bbf0ab858085e38fae6b12ebbdcd35 UnityEngine.Timeline.dll:UnityEngine.Timeline.PlayableTrack
 201e3fde670b00545944bb3db215c80a UnityEngine.Timeline.dll:UnityEngine.Timeline.TimelineAsset
 00274a21279f5cb831ce20f895049e38 Unity.TextMeshPro.dll:TMPro.TMP_SubMeshUI
-694b2d8d91f1929f28b744e90e53fac7 Assembly-CSharp.dll:.createobj
+c3c72b62d553b4932a8148346166548e Assembly-CSharp.dll:.createobj
 e6ae40841db498b6e673877ac45ad208 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkAnimator
 71bb6a6b6c8f052f948db64c7dd3ca4f UnityEngine.Networking.dll:UnityEngine.Networking.NetworkBehaviour
 1dcb82730d983b77cec736c6ef19f814 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkDiscovery
@@ -158,3 +158,5 @@ d791aa6007fa3640be1164ea75bb087d Unity.TextMeshPro.dll:TMPro.TMP_StyleSheet
 5372ed2ce39229b1ac910757999a8be2 Unity.TextMeshPro.dll:TMPro.TextMeshPro
 3165968ba45c74472d279ba04455fccb Unity.TextMeshPro.dll:TMPro.TMP_ColorGradient
 8649814970b42d345b89944b862453cc Unity.TextMeshPro.dll:TMPro.TMP_SubMesh
+85f70e77766332efd564f002f41505b8 Assembly-CSharp.dll:.playstart
+e4604a8d567f3100920b54515e9c78eb Assembly-CSharp.dll:.back

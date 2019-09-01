@@ -11,19 +11,15 @@ public class createobj : MonoBehaviour
     public InputField itemwidth_t;
     public InputField itemheight_t;
     public InputField itemdepth_t;
-    public static float pocketwidth = 1.0F;
-    public static float pocketheight = 1.0F;
-    public static float pocketdepth = 1.0F;
-    public static float itemwidth = 0.5F;
-    public static float itemheight = 0.5F;
-    public static float itemdepth = 0.5F;
+
+    public static float pocketwidth = 1.13F;
+    public static float pocketheight = 1.96F;
+    public static float pocketdepth = 0.57F;
+    public static float itemwidth = 1.008F;
+    public static float itemheight = 1.832F;
+    public static float itemdepth = 0.435F;
     public Button createbutton;
-    private GameObject LeftWall;
-    private GameObject RightWall;
-    private GameObject TopWall;
-    private GameObject BackWall;
-    private GameObject FrontWall;
-    private GameObject BaseWall;
+    public Button calbutton;
     private GameObject ItemCube;
     private GameObject IsoCube;
     private GameObject SideCube;
@@ -31,6 +27,13 @@ public class createobj : MonoBehaviour
     private GameObject TopRot;
     private GameObject SideTilt;
     private GameObject SideRot;
+    RaycastHit hit;
+    private GameObject aallow;
+    private GameObject ballow;
+    private GameObject kallow;
+    private GameObject atilt;
+    private GameObject btilt;
+    private GameObject ktilt;
 
 
     // Start is called before the first frame update
@@ -38,12 +41,8 @@ public class createobj : MonoBehaviour
     {
         Button btn = createbutton.GetComponent<Button>();
         btn.onClick.AddListener(TaskOnClick);
-        LeftWall = GameObject.Find("LeftWall");
-        RightWall = GameObject.Find("RightWall");
-        TopWall = GameObject.Find("TopWall");
-        BackWall = GameObject.Find("BackWall");
-        FrontWall = GameObject.Find("FrontWall");
-        BaseWall = GameObject.Find("BaseWall");
+        Button btn1 = calbutton.GetComponent<Button>();
+        btn1.onClick.AddListener(CalThreshold);
         ItemCube = GameObject.Find("ItemCube");
         IsoCube = GameObject.Find("IsoCube");
         SideCube = GameObject.Find("SideCube");
@@ -51,30 +50,50 @@ public class createobj : MonoBehaviour
         TopRot = GameObject.Find("TopRot");
         SideTilt = GameObject.Find("SideTilt");
         SideRot = GameObject.Find("SideRot");
-        
-    }
+        aallow = GameObject.Find("Aallowance");
+        ballow = GameObject.Find("Ballowance");
+        kallow = GameObject.Find("Kallowance");
+        atilt = GameObject.Find("Atilt");
+        btilt = GameObject.Find("Btilt");
+        ktilt = GameObject.Find("Ktilt");
+        pocketwidth_t.text = (pocketwidth).ToString();
+        pocketheight_t.text = (pocketheight).ToString();
+        pocketdepth_t.text = (pocketdepth).ToString();
+        itemwidth_t.text = (itemwidth).ToString();
+        itemheight_t.text = (itemheight).ToString();
+        itemdepth_t.text = (itemdepth).ToString();
+        TaskOnClick();
+
+
+}
     //isometric rotation 30 60 30
     void TaskOnClick()
     {
         if (float.TryParse(pocketwidth_t.text, out pocketwidth)) { };
+        if (pocketwidth > 0) { } else { pocketwidth = 1.13F; };
         if (float.TryParse(pocketheight_t.text, out pocketheight)) { };
+        if (pocketheight > 0) { } else { pocketheight = 1.96F; };
         if (float.TryParse(pocketdepth_t.text, out pocketdepth)) { };
+        if (pocketdepth > 0) { } else { pocketdepth = 0.57F; };
         if (float.TryParse(itemwidth_t.text, out itemwidth)) { };
+        if (itemwidth > 0) { } else { itemwidth = 1.008F; };
         if (float.TryParse(itemheight_t.text, out itemheight)) { };
+        if (itemheight > 0) { } else { itemheight = 1.832F; };
         if (float.TryParse(itemdepth_t.text, out itemdepth)) { };
+        if (itemdepth > 0) { } else { itemdepth = 0.435F; };
 
         //BaseWall.transform.position = new Vector3(0F,-pocketdepth/2-0.0005F,0F);
         //BaseWall.transform.localScale = new Vector3(pocketwidth, 0.001F, pocketheight);
-        IsoCube.transform.GetChild(0).localPosition = new Vector3(0F, 0F, -pocketheight/2-0.0005F);  //FrontWall
+        IsoCube.transform.GetChild(0).localPosition = new Vector3(0F, 0F, -pocketheight / 2 - 0.0005F);  //FrontWall
         IsoCube.transform.GetChild(0).localScale = new Vector3(pocketwidth, pocketdepth, 0.001F);
         IsoCube.transform.GetChild(1).localPosition = new Vector3(0F, -pocketdepth / 2 - 0.0005F, 0F);  //BaseWall
         IsoCube.transform.GetChild(1).localScale = new Vector3(pocketwidth, 0.001F, pocketheight);
         IsoCube.transform.GetChild(2).localPosition = new Vector3(0F, pocketdepth / 2 + 0.0005F, 0F);  //TopWall
         IsoCube.transform.GetChild(2).localScale = new Vector3(pocketwidth, 0.001F, pocketheight);
-        IsoCube.transform.GetChild(3).localPosition = new Vector3(pocketwidth/2+0.0005F, 0F, 0F);   //RightWall
+        IsoCube.transform.GetChild(3).localPosition = new Vector3(pocketwidth / 2 + 0.0005F, 0F, 0F);   //RightWall
         IsoCube.transform.GetChild(3).localScale = new Vector3(0.001F, pocketdepth, pocketheight);
-        IsoCube.transform.GetChild(4).localPosition = new Vector3(0F, 0F, pocketheight/2+0.0005F);  //BackWall
-        IsoCube.transform.GetChild(4).localScale = new Vector3(pocketwidth, pocketdepth, 0.001F);  
+        IsoCube.transform.GetChild(4).localPosition = new Vector3(0F, 0F, pocketheight / 2 + 0.0005F);  //BackWall
+        IsoCube.transform.GetChild(4).localScale = new Vector3(pocketwidth, pocketdepth, 0.001F);
         IsoCube.transform.GetChild(5).localPosition = new Vector3(-pocketwidth / 2 - 0.0005F, 0F, 0F);  //LeftWall
         IsoCube.transform.GetChild(5).localScale = new Vector3(0.001F, pocketdepth, pocketheight);
         IsoCube.transform.GetChild(6).localPosition = new Vector3(0F, 0F, 0F);  //Box
@@ -94,6 +113,7 @@ public class createobj : MonoBehaviour
         SideCube.transform.GetChild(5).localScale = new Vector3(0.001F, pocketdepth, pocketheight);
         SideCube.transform.GetChild(6).localPosition = new Vector3(0F, 0F, 0F);  //Box
         SideCube.transform.GetChild(6).localScale = new Vector3(itemwidth, itemdepth, itemheight);
+        SideCube.transform.GetChild(6).GetComponent<Rigidbody>().AddForce(-9.81F, 0F, 0F);
 
         TopCube.transform.GetChild(0).localPosition = new Vector3(0F, 0F, -pocketheight / 2 - 0.0005F);  //FrontWall
         TopCube.transform.GetChild(0).localScale = new Vector3(pocketwidth, pocketdepth, 0.001F);
@@ -109,6 +129,7 @@ public class createobj : MonoBehaviour
         TopCube.transform.GetChild(5).localScale = new Vector3(0.001F, pocketdepth, pocketheight);
         TopCube.transform.GetChild(6).localPosition = new Vector3(0F, 0F, 0F);  //Box
         TopCube.transform.GetChild(6).localScale = new Vector3(itemwidth, itemdepth, itemheight);
+        TopCube.transform.GetChild(6).GetComponent<Rigidbody>().AddForce(-9.81F, 0F, 9.81F);
 
         TopRot.transform.GetChild(0).localPosition = new Vector3(0F, 0F, -pocketheight / 2 - 0.0005F);  //FrontWall
         TopRot.transform.GetChild(0).localScale = new Vector3(pocketwidth, pocketdepth, 0.001F);
@@ -124,6 +145,7 @@ public class createobj : MonoBehaviour
         TopRot.transform.GetChild(5).localScale = new Vector3(0.001F, pocketdepth, pocketheight);
         TopRot.transform.GetChild(6).localPosition = new Vector3(0F, 0F, 0F);  //Box
         TopRot.transform.GetChild(6).localScale = new Vector3(itemwidth, itemdepth, itemheight);
+        TopRot.transform.GetChild(6).GetComponent<Rigidbody>().AddTorque(0F,10F,0F);
 
         SideTilt.transform.GetChild(0).localPosition = new Vector3(0F, 0F, -pocketheight / 2 - 0.0005F);  //FrontWall
         SideTilt.transform.GetChild(0).localScale = new Vector3(pocketwidth, pocketdepth, 0.001F);
@@ -139,6 +161,8 @@ public class createobj : MonoBehaviour
         SideTilt.transform.GetChild(5).localScale = new Vector3(0.001F, pocketdepth, pocketheight);
         SideTilt.transform.GetChild(6).localPosition = new Vector3(0F, 0F, 0F);  //Box
         SideTilt.transform.GetChild(6).localScale = new Vector3(itemwidth, itemdepth, itemheight);
+        SideTilt.transform.GetChild(6).GetComponent<Rigidbody>().AddTorque(0F, -10F, 0F);
+        //SideTilt.transform.GetChild(6).GetComponent<Rigidbody>().AddForce(0F, 0F, 9.81F);
 
         SideRot.transform.GetChild(0).localPosition = new Vector3(0F, 0F, -pocketheight / 2 - 0.0005F);  //FrontWall
         SideRot.transform.GetChild(0).localScale = new Vector3(pocketwidth, pocketdepth, 0.001F);
@@ -154,9 +178,50 @@ public class createobj : MonoBehaviour
         SideRot.transform.GetChild(5).localScale = new Vector3(0.001F, pocketdepth, pocketheight);
         SideRot.transform.GetChild(6).localPosition = new Vector3(0F, 0F, 0F);  //Box
         SideRot.transform.GetChild(6).localScale = new Vector3(itemwidth, itemdepth, itemheight);
+        SideRot.transform.GetChild(6).GetComponent<Rigidbody>().AddTorque(0F, -10F, 0F);
+        //SideRot.transform.GetChild(6).GetComponent<Rigidbody>().AddForce(-9.81F, 0F, 0F);
 
+    }
 
+    void CalThreshold() {
+        kallow.GetComponent<Text>().text = "Ko Allowance: " + (pocketdepth-itemdepth).ToString("F4") + "cm";
+        aallow.GetComponent<Text>().text = "Ao Allowance: " + (pocketwidth - itemwidth).ToString("F4") + "cm";
+        ballow.GetComponent<Text>().text = "Bo Allowance: " + (pocketheight - itemheight).ToString("F4") + "cm";
+
+        if (Physics.Raycast(TopRot.transform.GetChild(0).TransformPoint(0F, 0F, -pocketheight/2), new Vector3(0F, 0F, 1F), out hit, Mathf.Infinity))
+        {
+            //Debug.DrawRay(TopRot.transform.GetChild(0).TransformPoint(0F, 0F, -pocketheight / 2), new Vector3(0F, 0F, 1F) * hit.distance,  Color.green,500F);
+            //Debug.Log("Did Hit"+hit.distance);
+            //Debug.Log(Vector3.Angle(hit.normal, new Vector3(0F, 0F, -1F)).ToString());
+            //Debug.Log(hit.transform.eulerAngles.y);
+            atilt.GetComponent<Text>().text = "Ao Tilt: " + Vector3.Angle(hit.normal, new Vector3(0F, 0F, -1F)).ToString("F4") + "deg";
+        }
+        else
+        {
+            atilt.GetComponent<Text>().text = "Ao Tilt: " + "ERR" + "deg";
+        }
+
+        if (Physics.Raycast(SideTilt.transform.GetChild(1).TransformPoint(0, pocketdepth/2, 0F), new Vector3(1F, 0F, 0F), out hit, Mathf.Infinity))
+        {
+            //Debug.DrawRay(SideTilt.transform.GetChild(1).TransformPoint(0F, pocketdepth/2, 0F), new Vector3(1F, 0F, 0F) * hit.distance,  Color.green,500F);
+            btilt.GetComponent<Text>().text = "Bo hTilt: " + Vector3.Angle(hit.normal, new Vector3(-1F, 0F, 0F)).ToString("F4") + "deg";
+        }
+        else
+        {
+            btilt.GetComponent<Text>().text = "Bo hTilt: " + "ERR" + "deg";
+        }
+
+        if (Physics.Raycast(SideRot.transform.GetChild(1).TransformPoint(0, pocketdepth / 2, 0F), new Vector3(0F, 0F, 1F), out hit, Mathf.Infinity))
+        {
+            Debug.DrawRay(SideRot.transform.GetChild(1).TransformPoint(0F, pocketdepth/2, 0F), new Vector3(0F, 0F, 1F) * hit.distance,  Color.green,500F);
+            ktilt.GetComponent<Text>().text = "Ko hTilt: " + Vector3.Angle(hit.normal, new Vector3(0F, 0F, -1F)).ToString("F4") + "deg";
+        }
+        else
+        {
+            ktilt.GetComponent<Text>().text = "Ko hTilt: " + "ERR" + "deg";
+        }
 
 
     }
+
 }
