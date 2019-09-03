@@ -113,7 +113,7 @@ public class createobj : MonoBehaviour
         SideCube.transform.GetChild(5).localScale = new Vector3(0.001F, pocketdepth, pocketheight);
         SideCube.transform.GetChild(6).localPosition = new Vector3(0F, 0F, 0F);  //Box
         SideCube.transform.GetChild(6).localScale = new Vector3(itemwidth, itemdepth, itemheight);
-        SideCube.transform.GetChild(6).GetComponent<Rigidbody>().AddForce(-9.81F, 0F, 0F);
+        SideCube.transform.GetChild(6).GetComponent<Rigidbody>().AddForce(0F, 0F, -1F);
 
         TopCube.transform.GetChild(0).localPosition = new Vector3(0F, 0F, -pocketheight / 2 - 0.0005F);  //FrontWall
         TopCube.transform.GetChild(0).localScale = new Vector3(pocketwidth, pocketdepth, 0.001F);
@@ -145,7 +145,7 @@ public class createobj : MonoBehaviour
         TopRot.transform.GetChild(5).localScale = new Vector3(0.001F, pocketdepth, pocketheight);
         TopRot.transform.GetChild(6).localPosition = new Vector3(0F, 0F, 0F);  //Box
         TopRot.transform.GetChild(6).localScale = new Vector3(itemwidth, itemdepth, itemheight);
-        TopRot.transform.GetChild(6).GetComponent<Rigidbody>().AddTorque(0F,10F,0F);
+        TopRot.transform.GetChild(6).GetComponent<Rigidbody>().AddTorque(0F,1F,0F);
 
         SideTilt.transform.GetChild(0).localPosition = new Vector3(0F, 0F, -pocketheight / 2 - 0.0005F);  //FrontWall
         SideTilt.transform.GetChild(0).localScale = new Vector3(pocketwidth, pocketdepth, 0.001F);
@@ -161,7 +161,7 @@ public class createobj : MonoBehaviour
         SideTilt.transform.GetChild(5).localScale = new Vector3(0.001F, pocketdepth, pocketheight);
         SideTilt.transform.GetChild(6).localPosition = new Vector3(0F, 0F, 0F);  //Box
         SideTilt.transform.GetChild(6).localScale = new Vector3(itemwidth, itemdepth, itemheight);
-        SideTilt.transform.GetChild(6).GetComponent<Rigidbody>().AddTorque(0F, -10F, 0F);
+        SideTilt.transform.GetChild(6).GetComponent<Rigidbody>().AddTorque(0F, -1F, 0F);
         //SideTilt.transform.GetChild(6).GetComponent<Rigidbody>().AddForce(0F, 0F, 9.81F);
 
         SideRot.transform.GetChild(0).localPosition = new Vector3(0F, 0F, -pocketheight / 2 - 0.0005F);  //FrontWall
@@ -178,7 +178,7 @@ public class createobj : MonoBehaviour
         SideRot.transform.GetChild(5).localScale = new Vector3(0.001F, pocketdepth, pocketheight);
         SideRot.transform.GetChild(6).localPosition = new Vector3(0F, 0F, 0F);  //Box
         SideRot.transform.GetChild(6).localScale = new Vector3(itemwidth, itemdepth, itemheight);
-        SideRot.transform.GetChild(6).GetComponent<Rigidbody>().AddTorque(0F, -10F, 0F);
+        SideRot.transform.GetChild(6).GetComponent<Rigidbody>().AddTorque(0F, -1F, 0F);
         //SideRot.transform.GetChild(6).GetComponent<Rigidbody>().AddForce(-9.81F, 0F, 0F);
 
     }
@@ -194,31 +194,33 @@ public class createobj : MonoBehaviour
             //Debug.Log("Did Hit"+hit.distance);
             //Debug.Log(Vector3.Angle(hit.normal, new Vector3(0F, 0F, -1F)).ToString());
             //Debug.Log(hit.transform.eulerAngles.y);
-            atilt.GetComponent<Text>().text = "Ao Tilt: " + Vector3.Angle(hit.normal, new Vector3(0F, 0F, -1F)).ToString("F4") + "deg";
+            atilt.GetComponent<Text>().text = "Rotation: " + Vector3.Angle(hit.normal, new Vector3(0F, 0F, -1F)).ToString("F4") + "deg";
         }
         else
         {
-            atilt.GetComponent<Text>().text = "Ao Tilt: " + "ERR" + "deg";
+            atilt.GetComponent<Text>().text = "Rotation Tilt: " + "ERR" + "deg";
         }
 
-        if (Physics.Raycast(SideTilt.transform.GetChild(1).TransformPoint(0, pocketdepth/2, 0F), new Vector3(1F, 0F, 0F), out hit, Mathf.Infinity))
+        //Debug.Log(SideTilt.transform.GetChild(1).TransformPoint(0, pocketdepth / 2, 0F));
+
+        if (Physics.Raycast(SideTilt.transform.GetChild(1).TransformPoint(0, pocketdepth/2, 0F), new Vector3(0F, 0F, 1F), out hit, Mathf.Infinity))
         {
-            //Debug.DrawRay(SideTilt.transform.GetChild(1).TransformPoint(0F, pocketdepth/2, 0F), new Vector3(1F, 0F, 0F) * hit.distance,  Color.green,500F);
-            btilt.GetComponent<Text>().text = "Bo hTilt: " + Vector3.Angle(hit.normal, new Vector3(-1F, 0F, 0F)).ToString("F4") + "deg";
+            Debug.DrawRay(SideTilt.transform.GetChild(1).TransformPoint(0F, pocketdepth/2, 0F), new Vector3(0F, 0F, 1F) * hit.distance,  Color.red,500F);
+            btilt.GetComponent<Text>().text = "Bo Tilt: " + Vector3.Angle(hit.normal, new Vector3(0F, 0F, -1F)).ToString("F4") + "deg";
         }
         else
         {
-            btilt.GetComponent<Text>().text = "Bo hTilt: " + "ERR" + "deg";
+            btilt.GetComponent<Text>().text = "Bo Tilt: " + "ERR" + "deg";
         }
 
         if (Physics.Raycast(SideRot.transform.GetChild(1).TransformPoint(0, pocketdepth / 2, 0F), new Vector3(0F, 0F, 1F), out hit, Mathf.Infinity))
         {
-            Debug.DrawRay(SideRot.transform.GetChild(1).TransformPoint(0F, pocketdepth/2, 0F), new Vector3(0F, 0F, 1F) * hit.distance,  Color.green,500F);
-            ktilt.GetComponent<Text>().text = "Ko hTilt: " + Vector3.Angle(hit.normal, new Vector3(0F, 0F, -1F)).ToString("F4") + "deg";
+            Debug.DrawRay(SideRot.transform.GetChild(1).TransformPoint(0F, pocketdepth/2, 0F), new Vector3(0F, 0F, 1F) * hit.distance,  Color.red,500F);
+            ktilt.GetComponent<Text>().text = "Ao Tilt: " + Vector3.Angle(hit.normal, new Vector3(0F, 0F, -1F)).ToString("F4") + "deg";
         }
         else
         {
-            ktilt.GetComponent<Text>().text = "Ko hTilt: " + "ERR" + "deg";
+            ktilt.GetComponent<Text>().text = "Ao Tilt: " + "ERR" + "deg";
         }
 
 
